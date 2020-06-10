@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Amazon.S3.Util;
 using Amazon;
+using Amazon.S3.Model;
 
 
 namespace inr.Models
@@ -27,11 +28,24 @@ namespace inr.Models
       file = getFile;
     }
 
-    public static async Task<S3Response> UploadFileToS3(IFormFile file)
-    {
-      Console.WriteLine("Started the function");
-      try
+    static string GeneratePreSignedURL(IFormFile file){
+      String urlString = "";
+      using(var client = new AmazonS3Client("AKIAJ2LLUB3Z4IYCWB2Q", "v+jYIxOXSjnc06Mer4ynSKMrSvy2GsS95DFpy62q", RegionEndpoint.USWest2))
       {
+        GetPreSignedUrlRequest request = new GetPreSignedUrlRequest
+        {
+          BucketName = "j-farkas",
+          Key = file.FileName,
+          Expires = DateTime.Now.AddMinutes(10)
+        };
+        urlString = client.GetPreSignedURL(request);
+      }
+        return urlString;
+    }
+    public static async Task<String> UploadFileToS3(IFormFile file)
+    {
+      String url = "";
+      Console.WriteLine("Started the function");
         using(var client = new AmazonS3Client("AKIAJ2LLUB3Z4IYCWB2Q", "v+jYIxOXSjnc06Mer4ynSKMrSvy2GsS95DFpy62q", RegionEndpoint.USWest2))
         {
           using (var newMemoryStream = new MemoryStream())
@@ -47,24 +61,10 @@ namespace inr.Models
             };
             var fileTransferUtility = new TransferUtility(client);
             await fileTransferUtility.UploadAsync(uploadRequest);
+            url = GeneratePreSignedURL(file);
           }
         }
-      }
-      catch (AmazonS3Exception e)
-      {
-        Console.WriteLine(e.Message);
-        return new S3Response
-        {
-          Message = e.Message,
-          Status = e.StatusCode
-        };
-      }
-
-      return new S3Response
-      {
-        Message = "upload succesful",
-        Status = HttpStatusCode.OK
-      };
+      return url;
     }
   }
 }
