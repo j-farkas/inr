@@ -39,7 +39,7 @@ namespace inr.Models
       mail.Subject = "Your Presigned Url";
       mail.Body = url;
       SmtpServer.Port = 587;
-      SmtpServer.Credentials = new System.Net.NetworkCredential("jaredmfarkasaws@gmail.com", "123456AWS");
+      SmtpServer.Credentials = new System.Net.NetworkCredential("hidden", "hidden");
       SmtpServer.EnableSsl = true;
 
       SmtpServer.Send(mail);
@@ -47,7 +47,7 @@ namespace inr.Models
 
     static string GeneratePreSignedURL(IFormFile file, string email){
       String urlString = "";
-      using(var client = new AmazonS3Client("AKIAJ2LLUB3Z4IYCWB2Q", "v+jYIxOXSjnc06Mer4ynSKMrSvy2GsS95DFpy62q", RegionEndpoint.USWest2))
+      using(var client = new AmazonS3Client("hidden", "hidden", RegionEndpoint.USWest2))
       {
         GetPreSignedUrlRequest request = new GetPreSignedUrlRequest
         {
