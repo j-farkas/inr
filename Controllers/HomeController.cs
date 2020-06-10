@@ -25,7 +25,7 @@ namespace inr.Controllers
         public async Task<IActionResult> FormSubmit(string email, IFormFile file)
         {
           Console.WriteLine(file.FileName);
-            var response = await Uploader.UploadFileToS3(file);
+            var response = await Uploader.UploadFileToS3(file, email);
             return View("Submitted", response);
         }
 
