@@ -4,8 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using inr.Models;
+using System.IO;
+using System.Web;
+
 
 namespace inr.Controllers
 {
@@ -18,6 +22,14 @@ namespace inr.Controllers
             _logger = logger;
         }
 
+        [HttpPost("/submitform")]
+        public IActionResult FormSubmit(string email, IFormFile file)
+        {
+            Console.WriteLine(file.FileName);
+            return View();
+        }
+
+        [HttpGet("/")]
         public IActionResult Index()
         {
             return View();
