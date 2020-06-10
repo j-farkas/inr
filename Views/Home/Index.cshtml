@@ -4,5 +4,10 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form action="/submitform">
+      <label for="Email">E-mail</label>
+      <input id="Email" name="Email" type = "text" required><br><br>
+      <input type="file" name="fileToUpload" id="fileToUpload" required>
+      <input type = "submit" value = "Submit" name = "submit">
+    </form>
 </div>
