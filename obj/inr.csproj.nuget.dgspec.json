@@ -39,13 +39,13 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "AWSSDK.Core": {
+              "target": "Package",
+              "version": "[3.3.107.9, )"
+            },
             "AWSSDK.S3": {
               "target": "Package",
               "version": "[3.3.111.10, )"
-            },
-            "Amazon.S3": {
-              "target": "Package",
-              "version": "[4.0.0, )"
             }
           },
           "imports": [

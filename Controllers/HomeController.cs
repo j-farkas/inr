@@ -10,7 +10,6 @@ using inr.Models;
 using System.IO;
 using System.Web;
 
-
 namespace inr.Controllers
 {
     public class HomeController : Controller
@@ -23,10 +22,17 @@ namespace inr.Controllers
         }
 
         [HttpPost("/submitform")]
-        public IActionResult FormSubmit(string email, IFormFile file)
+        public async Task<IActionResult> FormSubmit(string email, IFormFile file)
         {
-            Console.WriteLine(file.FileName);
-            return View();
+          Console.WriteLine(file.FileName);
+            var response = await Uploader.UploadFileToS3(file);
+            return View("Submitted", response);
+        }
+
+        [HttpGet("/submit")]
+        public IActionResult Submitted()
+        {
+          return View();
         }
 
         [HttpGet("/")]
